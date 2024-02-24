@@ -66,14 +66,28 @@ jobs:
 
   generate-release:
     needs: [export-linux, export-windows]
-    runs-on: ubuntu-latest
     steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: windows
+          path: build/windows
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: linux
+          path: build/linux
+
       - name: Tag and upload artifacts to release
-      uses: ncipollo/release-action@v1
-      with:
-        tag: ${{ steps.extract-version.outputs.version-string }}
-        commit: ${{ github.sha }}
-        allowUpdates: false
-        artifactErrorsFailBuild: true
-        prerelease: true
-        artifacts: build/*
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.extract-version.outputs.version-string }}
+          commit: ${{ github.sha }}
+          allowUpdates: false
+          artifactErrorsFailBuild: true
+          prerelease: true
+          artifacts: build/*
