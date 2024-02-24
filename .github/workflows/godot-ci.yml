@@ -5,6 +5,9 @@ env:
   GODOT_VERSION: 4.2.1
   EXPORT_NAME: test-project
   PROJECT_PATH: test-project
+  VERSION_FILE: project.godot
+  VERSION_REGEX: config\/version=\"\K[0-9.\-A-z]*
+
 
 jobs:
   export-windows:
@@ -54,3 +57,39 @@ jobs:
         with:
           name: linux
           path: build/linux
+          
+  generate-release:
+    needs: [export-linux, export-windows]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3
+
+      - name: Extract version
+        uses: CapsCollective/version-actions/extract-version@v1.0
+        with:
+          version-file: ${{ env.VERSION_FILE }}
+          version-regex: ${{ env.VERSION_REGEX }}
+        id: extract-version
+      
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: windows
+          path: build/windows
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: linux
+          path: build/linux
+
+      - name: Tag and upload artifacts to release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.extract-version.outputs.version-string }}
+          commit: ${{ github.sha }}
+          allowUpdates: false
+          artifactErrorsFailBuild: true
+          prerelease: true
+          artifacts: artifacts/*/*
