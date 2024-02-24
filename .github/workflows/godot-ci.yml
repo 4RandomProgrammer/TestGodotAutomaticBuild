@@ -66,6 +66,7 @@ jobs:
 
   generate-release:
     needs: [export-linux, export-windows]
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3
