@@ -98,4 +98,4 @@ jobs:
           allowUpdates: false
           artifactErrorsFailBuild: true
           prerelease: true
-          artifacts: build/*
+          artifacts: build/*/*
