@@ -5,6 +5,8 @@ env:
   GODOT_VERSION: 4.2.1
   EXPORT_NAME: test-project
   PROJECT_PATH: base
+  # VERSION_FILE: project.godot
+  # VERSION_REGEX: config\/version=\"\K[0-9.\-A-z]*
 
 jobs:
   export-windows:
@@ -29,12 +31,6 @@ jobs:
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
-        with:
-          name: windows
-          path: build/windows
-
-      - name: Download Windows artifact
-        uses: actions/download-artifact@v1
         with:
           name: windows
           path: build/windows
