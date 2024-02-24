@@ -86,7 +86,6 @@ jobs:
       - name: Tag and upload artifacts to release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.version.outputs.version }}
           commit: ${{ github.sha }}
           allowUpdates: false
           artifactErrorsFailBuild: true
