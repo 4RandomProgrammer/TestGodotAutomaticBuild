@@ -95,7 +95,7 @@ jobs:
         with:
           tag: v1
           commit: ${{ github.sha }}
-          allowUpdates: false
+          allowUpdates: true
           artifactErrorsFailBuild: true
           prerelease: true
           artifacts: build/*/*
