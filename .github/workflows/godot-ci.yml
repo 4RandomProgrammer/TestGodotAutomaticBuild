@@ -91,7 +91,6 @@ jobs:
         with:
           tag: ${{ github.run_id }}
           commit: ${{ github.sha }}
-          allowUpdates: true
-          replacesArtifacts: true
+          allowUpdates: false
           artifactErrorsFailBuild: true
           artifacts: build/*/*
