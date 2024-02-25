@@ -87,7 +87,7 @@ jobs:
           path: build/linux
 
       - name: Tag and upload artifacts to release
-        uses: ncipollo/release-action@v1.14
+        uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.run_id }}
           commit: ${{ github.sha }}
